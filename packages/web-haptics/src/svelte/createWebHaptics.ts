@@ -1,11 +1,13 @@
 import { WebHaptics } from "../lib/web-haptics";
-import type { HapticPattern } from "../lib/web-haptics/types";
+import type { HapticInput, WebHapticsOptions } from "../lib/web-haptics/types";
 
-export function createWebHaptics() {
-  const instance = new WebHaptics();
+export function createWebHaptics(options?: WebHapticsOptions) {
+  const instance = new WebHaptics(options);
 
-  const trigger = (pattern?: HapticPattern) => instance.trigger(pattern);
+  const trigger = (input?: HapticInput) => instance.trigger(input);
+  const cancel = () => instance.cancel();
   const destroy = () => instance.destroy();
+  const isSupported = WebHaptics.isSupported();
 
-  return { trigger, destroy };
+  return { trigger, cancel, destroy, isSupported };
 }

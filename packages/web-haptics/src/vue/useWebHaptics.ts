@@ -1,12 +1,12 @@
 import { onMounted, onUnmounted } from "vue";
 import { WebHaptics } from "../lib/web-haptics";
-import type { HapticPattern } from "../lib/web-haptics/types";
+import type { HapticInput, WebHapticsOptions } from "../lib/web-haptics/types";
 
-export function useWebHaptics() {
+export function useWebHaptics(options?: WebHapticsOptions) {
   let instance: WebHaptics | null = null;
 
   onMounted(() => {
-    instance = new WebHaptics();
+    instance = new WebHaptics(options);
   });
 
   onUnmounted(() => {
@@ -14,7 +14,9 @@ export function useWebHaptics() {
     instance = null;
   });
 
-  const trigger = (pattern?: HapticPattern) => instance?.trigger(pattern);
+  const trigger = (input?: HapticInput) => instance?.trigger(input);
+  const cancel = () => instance?.cancel();
+  const isSupported = WebHaptics.isSupported();
 
-  return { trigger };
+  return { trigger, cancel, isSupported };
 }

@@ -1,1 +1,5 @@
-export type { HapticPattern } from "../lib/web-haptics/types";
+export type {
+  HapticPattern,
+  HapticInput,
+  WebHapticsOptions,
+} from "../lib/web-haptics/types";

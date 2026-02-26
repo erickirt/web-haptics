@@ -44,7 +44,7 @@ export default function Home() {
     <div className={styles.page}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1>web-haptics</h1>
+          <h1>WebHaptics</h1>
           <p>Haptic feedback for the web.</p>
         </div>
 
@@ -76,10 +76,7 @@ export default function Home() {
             <CodeBlock
               code={`import { useWebHaptics } from '${frameworks[frameworkIndex % frameworks.length].entrypoint}';
 
-${populateExample(
-  frameworks[frameworkIndex % frameworks.length].example,
-  "",
-)}`}
+${populateExample(frameworks[frameworkIndex % frameworks.length].example, "")}`}
             />
           </div>
         </section>

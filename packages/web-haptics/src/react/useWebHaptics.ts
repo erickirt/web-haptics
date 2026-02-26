@@ -1,22 +1,28 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { WebHaptics } from "../lib/web-haptics";
-import type { HapticPattern } from "../lib/web-haptics/types";
+import type { HapticInput, WebHapticsOptions } from "../lib/web-haptics/types";
 
-export function useWebHaptics() {
+export function useWebHaptics(options?: WebHapticsOptions) {
   const instanceRef = useRef<WebHaptics | null>(null);
 
   useEffect(() => {
-    instanceRef.current = new WebHaptics();
+    instanceRef.current = new WebHaptics(options);
     return () => {
       instanceRef.current?.destroy();
       instanceRef.current = null;
     };
   }, []);
 
-  const trigger = (pattern?: HapticPattern) =>
-    instanceRef.current?.trigger(pattern);
+  const trigger = useCallback(
+    (input?: HapticInput) => instanceRef.current?.trigger(input),
+    [],
+  );
 
-  return { trigger };
+  const cancel = useCallback(() => instanceRef.current?.cancel(), []);
+
+  const isSupported = WebHaptics.isSupported();
+
+  return { trigger, cancel, isSupported };
 }
