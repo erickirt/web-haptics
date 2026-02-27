@@ -5,12 +5,12 @@ import { useApp } from "../../context/app";
 import { SoundIcon } from "./sound-icon";
 import { Logo } from "../../components/logo";
 import { Toggle, ToggleGroup } from "../../components/toggle";
-import { useWebHaptics } from "web-haptics/react";
 import { SafariBar } from "./safari-bar";
 import { useState } from "react";
 import { InstallCommands } from "../installation";
 import { Usage } from "../usage";
 import { AnimatePresence, motion } from "motion/react";
+import { useHaptics } from "../../hooks/useHaptics";
 
 export default function MobileView({
   disabled,
@@ -20,7 +20,7 @@ export default function MobileView({
   setShaking?: (shaking: boolean) => void;
 }) {
   const { debug, setDebug } = useApp();
-  const { trigger } = useWebHaptics({ debug });
+  const { trigger } = useHaptics();
 
   const [view, setView] = useState<"play" | "install">("play");
 

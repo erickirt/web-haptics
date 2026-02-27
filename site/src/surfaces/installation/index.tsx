@@ -5,8 +5,7 @@ import styles from "./styles.module.scss";
 import { TextMorph } from "torph/react";
 
 import { CodeBlock } from "../../components/codeblock";
-import { useWebHaptics } from "web-haptics/react";
-import { useApp } from "../../context/app";
+import { useHaptics } from "../../hooks/useHaptics";
 
 const pkgCmds = {
   npm: "npm i web-haptics",
@@ -16,8 +15,7 @@ const pkgCmds = {
 };
 
 export const InstallCommands = () => {
-  const { debug } = useApp();
-  const { trigger } = useWebHaptics({ debug });
+  const { trigger } = useHaptics();
   const [cmdIndex, setCmdIndex] = useState(0);
 
   return (

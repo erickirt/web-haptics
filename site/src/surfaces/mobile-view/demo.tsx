@@ -1,10 +1,9 @@
 import styles from "./styles.module.scss";
 
-import { useWebHaptics } from "web-haptics/react";
 import { defaultPatterns } from "web-haptics";
 import { useRef } from "react";
 import { useParticles } from "../../components/particles";
-import { useApp } from "../../context/app";
+import { useHaptics } from "../../hooks/useHaptics";
 
 // add emoji sets
 const emojis = {
@@ -19,10 +18,7 @@ export const Demo = ({
 }: {
   setShaking?: (shaking: boolean) => void;
 }) => {
-  const { debug } = useApp();
-  const { trigger } = useWebHaptics({
-    debug,
-  });
+  const { trigger } = useHaptics();
   const { create } = useParticles();
 
   const spanRefs = useRef<Map<string, HTMLSpanElement>>(new Map());

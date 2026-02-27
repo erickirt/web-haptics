@@ -7,16 +7,6 @@ export const SafariBar = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <foreignObject x="-10" y="0" width="128" height="128">
-        <div
-          style={{
-            backdropFilter: "blur(12px)",
-            clipPath: "url(#bgblur_0_7388_437_clip_path)",
-            height: "100%",
-            width: "100%",
-          }}
-        />
-      </foreignObject>
       <g filter="url(#filter0_d_7388_437)" data-figma-bg-blur-radius="24">
         <path
           d="M30 62C30 48.7452 40.7452 38 54 38C67.2548 38 78 48.7452 78 62C78 75.2548 67.2548 86 54 86C40.7452 86 30 75.2548 30 62Z"
@@ -42,16 +32,6 @@ export const SafariBar = () => {
           }}
         />
       </g>
-      <foreignObject x="48" y="0" width="298" height="128">
-        <div
-          style={{
-            backdropFilter: "blur(12px)",
-            clipPath: "url(#bgblur_1_7388_437_clip_path)",
-            height: "100%",
-            width: "100%",
-          }}
-        />
-      </foreignObject>
       <g filter="url(#filter1_d_7388_437)" data-figma-bg-blur-radius="24">
         <path
           d="M88 62C88 48.7452 98.7452 38 112 38H282C295.255 38 306 48.7452 306 62C306 75.2548 295.255 86 282 86H112C98.7452 86 88 75.2548 88 62Z"
@@ -109,9 +89,6 @@ export const SafariBar = () => {
         <div
           style={{
             backdropFilter: "blur(12px)",
-            clipPath: "url(#bgblur_2_7388_437_clip_path)",
-            height: "100%",
-            width: "100%",
           }}
         />
       </foreignObject>

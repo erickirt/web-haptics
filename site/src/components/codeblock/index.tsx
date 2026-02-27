@@ -2,9 +2,8 @@ import { useState } from "react";
 
 import styles from "./styles.module.scss";
 import { AutoResize } from "../auto-resizer";
-import { useWebHaptics } from "web-haptics/react";
-import { useApp } from "../../context/app";
 import { TextMorph } from "torph/react";
+import { useHaptics } from "../../hooks/useHaptics";
 
 export const CodeBlock = ({
   code,
@@ -13,8 +12,7 @@ export const CodeBlock = ({
   code: string;
   children?: React.ReactNode;
 }) => {
-  const { debug } = useApp();
-  const { trigger } = useWebHaptics({ debug });
+  const { trigger } = useHaptics();
 
   const [isCopied, setIsCopied] = useState(false);
 

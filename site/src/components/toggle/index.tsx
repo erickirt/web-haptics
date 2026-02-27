@@ -2,8 +2,7 @@ import { useId } from "react";
 import styles from "./styles.module.scss";
 
 import { LayoutGroup, motion } from "motion/react";
-import { useWebHaptics } from "web-haptics/react";
-import { useApp } from "../../context/app";
+import { useHaptics } from "../../hooks/useHaptics";
 
 export const ToggleGroup = ({
   children,
@@ -35,8 +34,7 @@ export const Toggle = ({
   children: React.ReactNode;
   active?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const { debug } = useApp();
-  const { trigger } = useWebHaptics({ debug });
+  const { trigger } = useHaptics();
 
   return (
     <button
