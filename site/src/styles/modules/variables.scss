@@ -1,14 +1,47 @@
+@use "sass:color";
+@use "sass:list";
+@use "sass:math";
+
+@function hexToP3($color) {
+  @if color.alpha($color) != 1 {
+    @return "color(display-p3 " +
+      calc(color.channel($color, "red", $space: rgb) / 255) + " " +
+      calc(color.channel($color, "green", $space: rgb) / 255) + " " +
+      calc(color.channel($color, "blue", $space: rgb) / 255) + " / " +
+      calc(color.alpha($color)) + ")";
+  }
+  @return "color(display-p3 " +
+    calc(color.channel($color, "red", $space: rgb) / 255) + " " +
+    calc(color.channel($color, "green", $space: rgb) / 255) + " " +
+    calc(color.channel($color, "blue", $space: rgb) / 255) + ")";
+}
+
+@mixin createColors($colors, $suffix: "") {
+  @each $name, $code in $colors {
+    --#{$name}#{$suffix}: #{$code};
+  }
+  @supports (color: color(display-p3 1 1 1)) {
+    @each $name, $code in $colors {
+      --#{$name}#{$suffix}: #{hexToP3($code)};
+    }
+  }
+}
+
+$colors: (
+  body: #f8faff,
+  body-light: #ffffff,
+  color: #171717,
+  color-muted: rgba(23, 23, 23, 0.5),
+  color-light: rgba(23, 23, 23, 0.15),
+  border: #dbdbdb,
+  blue: #1a88f8,
+  green: #34c759,
+  orange: #ff9f0a,
+  red: #ff453a,
+);
+
 :root {
-  --body: #f8faff;
-  --body-light: #ffffff;
-  --color: #171717;
-  --color-muted: rgba(23, 23, 23, 0.5);
-  --color-light: rgba(23, 23, 23, 0.15);
-  --border: #dbdbdb;
-  --blue: #1a88f8;
-  --green: #34c759;
-  --orange: #ff9f0a;
-  --red: #ff453a;
+  @include createColors($colors);
 }
 
 :root {
