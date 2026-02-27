@@ -31,7 +31,12 @@ export const Demo = () => {
   ) => {
     trigger(pattern, { intensity });
     if (x !== undefined && y !== undefined) {
-      create(x, y, emojis[name as keyof typeof emojis]);
+      create(
+        x,
+        y,
+        emojis[name as keyof typeof emojis],
+        name === "long" ? 1000 : undefined,
+      );
     }
     const span = spanRefs.current.get(name);
     if (!span) return;
