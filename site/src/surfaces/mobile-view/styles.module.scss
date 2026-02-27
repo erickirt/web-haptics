@@ -1,9 +1,15 @@
 .page {
+  position: fixed;
+  inset: 0;
   width: 100%;
   max-width: 28rem;
-  padding: 2.25rem 1.25rem;
+  padding: 2.25rem 1.25rem 27%;
   margin: 0 auto;
   background: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .safariUI {

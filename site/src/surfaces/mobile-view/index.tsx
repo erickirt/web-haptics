@@ -58,7 +58,7 @@ export default function MobileView({
           </div>
         )}
 
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={false} mode="popLayout">
           <motion.div
             key={view}
             initial={{ x: view === "play" ? -8 : 8 }}
