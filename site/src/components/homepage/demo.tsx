@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 
 import { useWebHaptics } from "web-haptics/react";
 import { defaultPatterns } from "web-haptics";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../button";
 
 export const Demo = () => {
@@ -10,6 +10,19 @@ export const Demo = () => {
     debug: import.meta.env.DEV,
   });
   const [intensity, setIntensity] = useState<number | undefined>(undefined);
+  const spanRefs = useRef<Map<string, HTMLSpanElement>>(new Map());
+
+  const handleTrigger = (
+    name: string,
+    pattern: (typeof defaultPatterns)[keyof typeof defaultPatterns],
+  ) => {
+    trigger(pattern, { intensity });
+    const span = spanRefs.current.get(name);
+    if (!span) return;
+    span.classList.remove(styles[name]!);
+    void span.offsetWidth;
+    span.classList.add(styles[name]!);
+  };
 
   return (
     <div className={styles.demo}>
@@ -18,13 +31,23 @@ export const Demo = () => {
           <button
             key={name}
             aria-description={pattern.description}
-            onClick={() =>
-              trigger(pattern, {
-                intensity,
-              })
-            }
+            onPointerDown={(e) => {
+              e.preventDefault();
+              handleTrigger(name, pattern);
+            }}
           >
-            {name.charAt(0).toUpperCase() + name.slice(1)}
+            <span
+              ref={(el) => {
+                if (el) spanRefs.current.set(name, el);
+              }}
+              onAnimationEnd={(e) =>
+                (e.currentTarget as HTMLSpanElement).classList.remove(
+                  styles[name]!,
+                )
+              }
+            >
+              {name.charAt(0).toUpperCase() + name.slice(1)}
+            </span>
           </button>
         ))}
       </div>
