@@ -66,7 +66,7 @@ export class WebHaptics {
   }
 
   async trigger(
-    input: HapticInput = defaultPatterns.lightTap,
+    input: HapticInput = [10],
     options?: TriggerOptions,
   ): Promise<void> {
     let pattern: number[];
