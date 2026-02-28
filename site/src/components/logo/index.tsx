@@ -1,12 +1,6 @@
 import { motion } from "motion/react";
 
-const Letter = ({
-  children,
-  index,
-}: {
-  children: React.ReactNode;
-  index: number;
-}) => {
+const Letter = ({ children }: { children: React.ReactNode; index: number }) => {
   return (
     <motion.g
       animate={{ rotate: [0, 4, -4, 4, -4, 0] }}
