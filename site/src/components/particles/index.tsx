@@ -8,11 +8,13 @@ import React, {
   useEffect,
 } from "react";
 
+export type EmojiOption = { emoji: string; canFlip: boolean };
+
 type ParticlesContextValue = {
   create: (
     x: number,
     y: number,
-    emojis: string[],
+    emojis: EmojiOption[],
     duration?: number,
     gx?: number,
     gy?: number,
@@ -30,6 +32,7 @@ interface Particle {
   life: number;
   maxLife: number;
   emoji: string;
+  flipH: boolean;
   fontSize: number;
   radius: number;
   gx: number;
@@ -167,7 +170,7 @@ function spawnBurst(
   particles: Particle[],
   x: number,
   y: number,
-  emojis: string[],
+  emojis: EmojiOption[],
   gx: number,
   gy: number,
 ) {
@@ -180,6 +183,8 @@ function spawnBurst(
       (i === 0 ? 4 : i === 1 ? 8 : i === 2 ? 8 : 0) *
       (0.25 + Math.random() * 0.25);
 
+    const pick = emojis[Math.floor(Math.random() * emojis.length)];
+
     particles.push({
       x,
       y,
@@ -190,7 +195,8 @@ function spawnBurst(
       opacity: 1,
       life: ANIM_FRAMES,
       maxLife: ANIM_FRAMES,
-      emoji: emojis[Math.floor(Math.random() * emojis.length)] || "\u2728",
+      emoji: pick?.emoji || "\u2728",
+      flipH: pick?.canFlip ? Math.random() < 0.5 : false,
       fontSize: 20 + Math.ceil(Math.random() * 40),
       radius: 0,
       gx,
@@ -267,7 +273,8 @@ export const ParticlesProvider = ({
           const rad = (p.a * Math.PI) / 180;
           const cos = Math.cos(rad) * dpr;
           const sin = Math.sin(rad) * dpr;
-          ctx.setTransform(cos, sin, -sin, cos, p.x * dpr, p.y * dpr);
+          const fx = p.flipH ? -1 : 1;
+          ctx.setTransform(cos * fx, sin * fx, -sin, cos, p.x * dpr, p.y * dpr);
 
           ctx.drawImage(emojiImg, -halfSize, -halfSize, drawSize, drawSize);
         }
@@ -302,7 +309,7 @@ export const ParticlesProvider = ({
     (
       x: number,
       y: number,
-      emojis: string[] = ["\u2728", "\uD83D\uDD25"],
+      emojis: EmojiOption[] = [{ emoji: "\u2728", canFlip: false }, { emoji: "\uD83D\uDD25", canFlip: false }],
       duration?: number,
       gx: number = 0,
       gy: number = -1.5,

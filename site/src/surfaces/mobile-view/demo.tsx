@@ -2,16 +2,47 @@ import styles from "./styles.module.scss";
 
 import { defaultPatterns } from "web-haptics";
 import { useRef } from "react";
-import { useParticles } from "../../components/particles";
+import { useParticles, type EmojiOption } from "../../components/particles";
 import { useHaptics } from "../../hooks/useHaptics";
 
-// add emoji sets
+// add emoji sets with [emoji, weight, canFlip?] tuples
+type EmojiEntry = [emoji: string, weight: number, canFlip?: boolean];
+
 const emojis = {
-  success: ["✅", "🎉", "🤝", "💚", "👍"],
-  nudge: ["🫨", "🙉", "👉", "😳"],
-  error: ["⛔️", "🚨", "🚫", "🙅‍♀️"],
-  buzz: ["🐝", "🍯"],
+  success: [
+    ["✅", 3],
+    ["🎉", 2, true],
+    ["🤝", 1],
+    ["💚", 2],
+    ["👍", 3, true],
+  ] as EmojiEntry[],
+  nudge: [
+    ["🫨", 2, true],
+    ["🙉", 3],
+    ["👉", 2, true],
+    ["😳", 1],
+  ] as EmojiEntry[],
+  error: [
+    ["⛔️", 3],
+    ["🚨", 1],
+    ["🚫", 3],
+    ["🙅‍♀️", 1, true],
+  ] as EmojiEntry[],
+  buzz: [
+    ["🐝", 12, true],
+    ["🍯", 8],
+    ["🌼", 3],
+  ] as EmojiEntry[],
 };
+
+function expandWeighted(entries: EmojiEntry[]): EmojiOption[] {
+  return entries.flatMap(([emoji, weight, canFlip]) =>
+    Array.from({ length: weight }, () => ({
+      emoji,
+      canFlip: canFlip ?? false,
+    })),
+  );
+}
 
 export const Demo = ({
   setShaking,
@@ -38,7 +69,7 @@ export const Demo = ({
       create(
         x,
         y,
-        emojis[name as keyof typeof emojis],
+        expandWeighted(emojis[name as keyof typeof emojis]),
         name === "buzz" ? 1000 : undefined,
       );
     }
