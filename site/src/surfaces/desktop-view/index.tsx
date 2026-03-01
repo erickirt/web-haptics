@@ -9,6 +9,7 @@ import { Usage } from "../usage";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useVibration } from "../../hooks/useVibration";
+import { HapticBuilder } from "../builder";
 
 export default function DesktopView() {
   const [shaking, setShaking] = useState(false);
@@ -85,6 +86,11 @@ export default function DesktopView() {
         <section>
           <h3>Usage</h3>
           <Usage />
+        </section>
+
+        <section>
+          <h3>Builder</h3>
+          <HapticBuilder />
         </section>
 
         <Footer />

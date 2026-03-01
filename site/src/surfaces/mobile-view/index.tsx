@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useHaptics } from "../../hooks/useHaptics";
 import { AutoResize } from "../../components/auto-resizer";
 import { Footer } from "../../components/footer";
+import { HapticBuilder } from "../builder";
 
 export default function MobileView({
   disabled,
@@ -24,7 +25,7 @@ export default function MobileView({
   const { debug, setDebug } = useApp();
   const { trigger } = useHaptics();
 
-  const [view, setView] = useState<"play" | "install">("play");
+  const [view, setView] = useState<"play" | "install" | "build">("play");
 
   return (
     <div className={styles.page} data-disabled={!!disabled}>
@@ -56,6 +57,12 @@ export default function MobileView({
               >
                 Install
               </Toggle>
+              <Toggle
+                onClick={() => setView("build")}
+                active={view === "build"}
+              >
+                Build
+              </Toggle>
             </ToggleGroup>
           </div>
         )}
@@ -82,6 +89,14 @@ export default function MobileView({
                   </section>
 
                   <Footer />
+                </div>
+              )}
+              {view === "build" && (
+                <div className={styles.installation}>
+                  <section>
+                    <h3>Builder</h3>
+                    <HapticBuilder />
+                  </section>
                 </div>
               )}
             </motion.div>
