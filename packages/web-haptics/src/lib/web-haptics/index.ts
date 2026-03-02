@@ -365,7 +365,7 @@ export class WebHaptics {
 
     this.audioGain.gain.value = 0.5 * intensity;
 
-    const baseFreq = 500 + intensity * 4000;
+    const baseFreq = 2000 + intensity * 2000;
     const jitter = 1 + (Math.random() - 0.5) * 0.3;
     this.audioFilter.frequency.value = baseFreq * jitter;
 
