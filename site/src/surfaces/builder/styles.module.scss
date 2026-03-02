@@ -84,7 +84,7 @@
 .timeline {
   position: relative;
   height: 4rem;
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   box-shadow: 0 0 0 1px var(--border);
   background: var(--body-light);
   cursor: crosshair;
@@ -98,11 +98,19 @@
   top: 0;
   bottom: 0;
   width: 1px;
-  background: var(--border);
+  transform: translateX(-0.5px);
   pointer-events: none;
+  background: var(--border);
 
   &[data-minor="true"] {
-    opacity: 0.35;
+    background: linear-gradient(
+        0deg,
+        var(--border) 0%,
+        var(--border) 50%,
+        transparent 50%,
+        transparent 100%
+      )
+      0% 0% / 1px 6px;
   }
 }
 
@@ -122,15 +130,24 @@
 
 .tapRegion {
   position: absolute;
-  background: var(--blue);
-  opacity: 0.12;
-  border-radius: 0.375rem;
+  min-width: 8px;
+  min-height: 8px;
   cursor: grab;
   touch-action: none;
-  transition: opacity 100ms ease;
+  transition:
+    background 100ms ease,
+    border-color 100ms ease;
 
-  &[data-selected="true"] {
-    opacity: 0.25;
+  &[data-selected="true"]:after {
+    background: rgba(26, 136, 248, 0.25);
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    background: rgba(26, 136, 248, 0.15);
+    border-radius: 0.5rem;
   }
 
   &:active {
@@ -142,7 +159,7 @@
   position: absolute;
   top: -20%;
   bottom: -20%;
-  width: 10px;
+  width: 16px;
   cursor: ew-resize;
   z-index: 3;
   pointer-events: auto;
@@ -154,14 +171,14 @@
     transform: translateY(-50%);
     width: 2px;
     height: 1rem;
-    border-radius: 1px;
+    border-radius: 1.5px;
     background: var(--blue);
-    opacity: 0;
+    opacity: 0.4;
     transition: opacity 100ms ease;
   }
 
   &:hover:after {
-    opacity: 0.5;
+    opacity: 0.7;
   }
 }
 
@@ -170,7 +187,7 @@
   right: -4px;
 
   &:after {
-    right: 4px;
+    right: 8px;
   }
 }
 
@@ -179,7 +196,7 @@
   left: -4px;
 
   &:after {
-    left: 4px;
+    left: 8px;
   }
 }
 
@@ -187,7 +204,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: 8px;
+  height: 14px;
   cursor: ns-resize;
   z-index: 3;
   pointer-events: auto;
@@ -198,7 +215,7 @@
     left: 50%;
     transform: translateX(-50%);
     height: 2px;
-    width: 1rem;
+    width: 0.5rem;
     border-radius: 1px;
     background: var(--blue);
     opacity: 0;
@@ -215,7 +232,7 @@
   top: -4px;
 
   &:after {
-    top: 3px;
+    top: 8px;
   }
 }
 
@@ -224,31 +241,7 @@
   bottom: -4px;
 
   &:after {
-    bottom: 3px;
-  }
-}
-
-.tapCircle {
-  position: absolute;
-  top: 50%;
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 50%;
-  background: var(--blue);
-  border: 2px solid white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-  cursor: grab;
-  z-index: 4;
-  touch-action: none;
-
-  &[data-selected="true"] {
-    box-shadow:
-      0 0 0 2.5px var(--blue),
-      0 1px 4px rgba(0, 0, 0, 0.12);
-  }
-
-  &:active {
-    cursor: grabbing;
+    bottom: 8px;
   }
 }
 

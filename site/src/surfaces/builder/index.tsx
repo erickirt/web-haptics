@@ -209,7 +209,7 @@ const presets = Object.entries(defaultPatterns) as [string, HapticPreset][];
 
 // --- Delete threshold (distance outside timeline bounds) ---
 
-const DELETE_THRESHOLD = 80; // px beyond timeline edge
+const DELETE_THRESHOLD = 20; // px beyond timeline edge
 
 // --- Code generation ---
 
@@ -562,10 +562,10 @@ export const HapticBuilder = () => {
             />
           ))}
 
-          {/* Taps (grouped bar + circle) */}
+          {/* Taps */}
           <AnimatePresence>
             {state.taps.map((tap) => {
-              const inset = `min(calc(50% - 1.5px), ${(1 - tap.intensity) * 50}%)`;
+              const inset = `calc(${1 - tap.intensity} * (50% - 10px))`;
               const isDeleting = pendingDeleteId === tap.id;
               return (
                 <motion.div
@@ -574,6 +574,7 @@ export const HapticBuilder = () => {
                     position: "absolute",
                     left: `${(tap.position / 1000) * 100}%`,
                     width: `${(tap.duration / 1000) * 100}%`,
+                    minWidth: 16,
                     top: 0,
                     bottom: 0,
                     x: isDeleting ? dragOffset.x : 0,
@@ -602,7 +603,7 @@ export const HapticBuilder = () => {
                     style={{ position: "absolute", inset: 0 }}
                   >
                     {/* Region bar */}
-                    <div
+                    <motion.div
                       className={styles.tapRegion}
                       data-selected={tap.id === state.selectedId}
                       style={{
@@ -611,6 +612,17 @@ export const HapticBuilder = () => {
                         top: inset,
                         bottom: inset,
                         pointerEvents: "auto",
+                      }}
+                      animate={{
+                        scale: activeTapIds.has(tap.id) ? 1.05 : 1,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 25,
+                        scale: activeTapIds.has(tap.id)
+                          ? { type: "spring", stiffness: 600, damping: 15 }
+                          : undefined,
                       }}
                       onPointerDown={(e) => handleDragStart(e, tap.id)}
                       onClick={(e) => {
@@ -638,33 +650,7 @@ export const HapticBuilder = () => {
                           handleIntensityDragStart(e, tap.id, "bottom")
                         }
                       />
-                    </div>
-
-                    {/* Circle */}
-                    <motion.div
-                      className={styles.tapCircle}
-                      data-selected={tap.id === state.selectedId}
-                      style={{
-                        left: 0,
-                        x: "-50%",
-                        y: "-50%",
-                        pointerEvents: "auto",
-                      }}
-                      animate={{ scale: activeTapIds.has(tap.id) ? 1.4 : 1 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 25,
-                        scale: activeTapIds.has(tap.id)
-                          ? { type: "spring", stiffness: 600, damping: 15 }
-                          : undefined,
-                      }}
-                      onPointerDown={(e) => handleDragStart(e, tap.id)}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        dispatch({ type: "SELECT_TAP", id: tap.id });
-                      }}
-                    />
+                    </motion.div>
                   </div>
                 </motion.div>
               );
